@@ -28,7 +28,7 @@ function initPage($,colors) {
         color: "#ECC",
         flat: true,
         className: "full-spectrum",
-        layout : {
+        states : {
             showInput: true,
             showInitial: true,
             showPalette: true,
@@ -248,7 +248,7 @@ function initPage($,colors) {
         $("<h3 />").text(i).appendTo("#palettes");
         $("<input />").appendTo("#palettes").colorer({
           flat: true,
-          layout : {
+          states : {
               showInput: true,
               showPalette: true,
               showPaletteOnly: true
@@ -263,7 +263,7 @@ function initPage($,colors) {
     $(function() {
         $("#langdemo").colorer({
           flat: false,
-          layout : {
+          states : {
             showInput: true
           }
         });

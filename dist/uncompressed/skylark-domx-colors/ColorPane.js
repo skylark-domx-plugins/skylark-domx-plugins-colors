@@ -100,6 +100,8 @@ define([
         options : {
             selectors  : {
                 pickerContainer : ".sp-picker-container",
+                toggleButton : ".sp-palette-toggle",
+                paletteContainer : ".sp-palette",
                 dragger : ".sp-color",
                 dragHelper : ".sp-dragger",
                 slider : ".sp-hue",
@@ -108,12 +110,10 @@ define([
                 alphaSlider : ".sp-alpha",
                 alphaSlideHelper : ".sp-alpha-handle",
                 textInput : ".sp-input",
-                paletteContainer : ".sp-palette",
                 initialColorContainer : ".sp-initial",
                 cancelButton : ".sp-cancel",
                 clearButton : ".sp-clear",
-                chooseButton : ".sp-choose",
-                toggleButton : ".sp-palette-toggle"
+                chooseButton : ".sp-choose"
             },
 
             draggingClass : "sp-dragging",
@@ -128,16 +128,16 @@ define([
                 noColorSelectedText: "No Color Selected"
             },
 
-            layout : {
+            states : {
+                showPalette: false,
+                showPaletteOnly: false,
+                togglePaletteOnly: false,
+                showSelectionPalette: true,
                 showInput: false,
                 allowEmpty: false,
                 showButtons: true,
                 showInitial: false,
-                showPalette: false,
-                showPaletteOnly: false,
-                showAlpha: false,
-                togglePaletteOnly: false,
-                showSelectionPalette: true,
+                showAlpha: false
             },
 
 
@@ -149,7 +149,6 @@ define([
             appendTo: "body",
             maxSelectionSize: 7,
             preferredFormat: false,
-            className: "", // Deprecated - use containerClassName and replacerClassName instead.
             containerClassName: "",
             replacerClassName: "",
             theme: "sp-light",
@@ -163,7 +162,7 @@ define([
         },
 
         _addColorToSelectionPalette : function (color) {
-            if (this.options.layout.showSelectionPalette) {
+            if (this.stating("showSelectionPalette")) {
                 var rgb = Color.parse(color).toRgbString();
                 if (!this._paletteLookup[rgb] && langx.inArray(rgb, this._selectionPalette) === -1) {
                     this._selectionPalette.push(rgb);
@@ -284,6 +283,15 @@ define([
         _updateUI : function () {
             var opts = this.options;
 
+            this._dragWidth = this.$dragger.width();
+            this._dragHeight = this.$dragger.height();
+            this._dragHelperHeight = this.$dragHelper.height();
+            this._slideWidth = this.$slider.width();
+            this._slideHeight = this.$slider.height();
+            this._slideHelperHeight = this.$slideHelper.height();
+            this._alphaWidth = this.$alphaSlider.width();
+            this._alphaSlideHelperWidth = this.$alphaSlideHelper.width();
+            
             this.$textInput.removeClass("sp-validation-error");
 
             this._updateHelperLocations();
@@ -362,14 +370,14 @@ define([
             var opts = this.options;
 
             this._states = {
-            	allowEmpty : opts.layout.allowEmpty,
-                showInput : opts.layout.showInput,
-                showAlpha : opts.layout.showAlpha,
-                showButtons : opts.layout.showButtons,
-                togglePaletteOnly : opts.layout.togglePaletteOnly,
-                showPalette : opts.layout.showPalette,
-                showPaletteOnly : opts.layout.showPaletteOnly,
-                showInitial : opts.layout.showInitial
+            	allowEmpty : opts.states.allowEmpty,
+                showInput : opts.states.showInput,
+                showAlpha : opts.states.showAlpha,
+                showButtons : opts.states.showButtons,
+                togglePaletteOnly : opts.states.togglePaletteOnly,
+                showPalette : opts.states.showPalette,
+                showPaletteOnly : opts.states.showPaletteOnly,
+                showInitial : opts.states.showInitial
             };
 
 
@@ -386,17 +394,10 @@ define([
             }
 
             this.$container.toggleClass("sp-flat", opts.flat)
-                           // .toggleClass("sp-input-disabled", !opts.showInput)
-                           // .toggleClass("sp-alpha-enabled", opts.showAlpha)
-                           // .toggleClass("sp-clear-enabled", opts.allowEmpty)
-                           // .toggleClass("sp-buttons-disabled", !opts.showButtons)
-                           // .toggleClass("sp-palette-buttons-disabled", !opts.togglePaletteOnly)
-                           // .toggleClass("sp-palette-disabled", !opts.showPalette)
-                           // .toggleClass("sp-palette-only", opts.showPaletteOnly)
-                           // .toggleClass("sp-initial-disabled", !opts.showInitial)
-                            .addClass(opts.className).addClass(opts.containerClassName);
+                            .addClass(opts.containerClassName);
 
            this._applyStates();
+
            this.reflow();
         },
 
@@ -406,39 +407,11 @@ define([
             this.$el = this.$();
 
             var opts = this.options,
-
-                element = this._elm,
-                //flat = opts.flat,
-                ///showSelectionPalette = opts.showSelectionPalette,
                 theme = opts.theme,
-                //visible = false,
-                isDragging = false,
-                //dragWidth = 0,
-                //dragHeight = 0,
-                //dragHelperHeight = 0,
-                //slideHeight = 0,
-                //slideWidth = 0,
-                //alphaWidth = 0,
-                //alphaSlideHelperWidth = 0,
-                //slideHelperHeight = 0,
-                //currentHue = 0,
-                //currentSaturation = 0,
-                //currentValue = 0,
-                //currentAlpha = 1,
-                //palette = [],
-                //paletteArray = [],
-                //paletteLookup = {},
-
                 selectionPalette = this._selectionPalette =  opts.selectionPalette.slice(0);
-                //maxSelectionSize = opts.maxSelectionSize,
-                //shiftMovementDirection = null;
 
 
-            var doc = element.ownerDocument,
-                body = doc.body,
-                //boundElement = $(element),
-                disabled = false,
-                container = this.$container = $(markup, doc).addClass(theme),
+            var container = this.$container = $(markup,elm.ownerDocument).addClass(theme),
                 pickerContainer = this.$pickerContainer =  container.find(opts.selectors.pickerContainer),
                 dragger = this.$dragger = container.find(opts.selectors.dragger),
                 dragHelper = this.$dragHelper = container.find(opts.selectors.dragHelper),
@@ -463,35 +436,7 @@ define([
                 initialColor = this._initialColor =  opts.color || (isInput && this.$el.val()),
                 colorOnShow = this._colorOnShow = false,
                 currentPreferredFormat = this._currentPreferredFormat = opts.preferredFormat,
-                //clickoutFiresChange = !this._states.showButtons || opts.clickoutFiresChange,
-                isEmpty = this._isEmpty =  !initialColor,
-                allowEmpty = this._allowEmpty = opts.allowEmpty && !isInputTypeColor;
-
-
-
-            function onkeydown(e) {
-                // Close on ESC
-                if (e.keyCode === 27) {
-                    hide();
-                }
-            }
-
-            function clickout(e) {
-                // Return on right click.
-                if (e.button == 2) { return; }
-
-                // If a drag event was happening during the mouseup, don't hide
-                // on click.
-                if (isDragging) { return; }
-
-                if (clickoutFiresChange) {
-                    updateOriginalInput(true);
-                }
-                else {
-                    revert();
-                }
-                hide();
-            }
+                isEmpty = this._isEmpty =  !initialColor;
 
 
             function isValid() {
@@ -502,18 +447,6 @@ define([
 
             this._init();
 
-            /*
-            langx.mixin(this, {
-
-                option: option,
-                set: function (c) {
-                    set(c);
-                    updateOriginalInput();
-                },
-                //get: get,
-                container: container
-            });
-            */
         },
 
         _init : function () {
@@ -546,8 +479,6 @@ define([
                 this.$container.find("*:not(input)").attr("unselectable", "on");
             }
 
-            this._applyOptions();
-
             if (this._shouldReplace) {
                 this.$el.after(this.$replacer).hide();
             }
@@ -563,6 +494,8 @@ define([
 
                 appendTo.append(this.$container);
             }
+
+            this._applyOptions();
 
             this.listenTo(this.$offsetElement,"click touchstart", function (e) {
                 //if (!disabled) {
@@ -937,7 +870,7 @@ define([
 
             this._colorOnShow = this.get();
 
-            this._drawInitial();
+            //this._drawInitial();
             
         },
         hide : function () {
