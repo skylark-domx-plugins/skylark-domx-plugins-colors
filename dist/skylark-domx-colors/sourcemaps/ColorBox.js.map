@@ -1,0 +1,1 @@
+{"version":3,"sources":["ColorBox.js"],"names":["define","colors"],"mappings":";;;;;;;AAAAA,QACC,YACC,SAASC","file":"../ColorBox.js","sourcesContent":["define([\r\n\t\"./colors\"\r\n],function(colors){\r\n\t\r\n});"]}

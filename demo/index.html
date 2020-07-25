@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Skylark Color Picker</title>
+
+    <meta name="description" content="skylark-ui-colorpicker is a JavaScript colorpicker plugin for html5 application development">
+    <meta name="author" content="hudaokeji">
+
+    <link rel="stylesheet" type="text/css" href="../skins/default/colorpicker.css">
+    <link rel="stylesheet" type="text/css" href="./bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./docs.css">
+    <script type="text/javascript" src="./require.js" data-main="./main.js"></script>
+    <script type='text/javascript' src='example.js'></script>
+
+    <style>
+
+    .example-container {
+        margin-top: 10px;
+        text-align: center;
+        background: #333;
+        background: linear-gradient(to bottom, #eee, #ccc);
+        padding: 3px;
+        padding-top: 0;
+        border-radius: 5px;
+    }
+    .example-controls {
+        background: #999;
+        margin: 0 -3px;
+        padding: 10px 0;
+        margin-bottom: 15px;
+
+    }
+    label {
+        display: inline-block;
+        font-weight: bold;
+
+    }
+    #palettes .sp-palette {
+        max-width: 500px;
+    }
+
+
+    .newGmail .sp-palette-row-0, .newGmail .sp-palette-row-1 {
+        margin-bottom: 5px;
+    }
+
+    .newGmail .sp-palette .sp-thumb-el {
+        width: 20px;
+        height: 20px;
+        margin: 1px 1px;
+    }
+
+    .newGmail .sp-palette .sp-thumb-el:hover, .newGmail  .sp-palette .sp-thumb-el.sp-thumb-active {
+        border-color: #000;
+    }
+    </style>
+</head>
+<body>
+<div id='header'>
+    <h1>skylark colorpicker</h1> 
+    <div id='links'>
+        View the <a href='https://github.com/skylarkui/skylark-ui-colorpicker'>Source code</a>.
+    </div>
+    <br style='clear:both;' />
+</div>
+
+<div class="container">
+
+    <h2>Configurator</h2>
+    <div class='alert'>NOTE: this page is currently in development.  Please refer to the <a href='https://github.com/skylarkui/skylark-ui-colorpicker'>Home Page</a> for demos and documentation instead.
+    </div>
+    <p>
+        Skylark-ui-colorpicker can be customized to show and hide different portions of the colorpicker.  Try clicking some of the buttons below to see how it can change.
+    </p>
+
+    <div class="example-container">
+        <div class="example-controls">
+            <div class='btn-group'>
+                <button class='btn toggleBtn' data-rule='showPalette'>Show Palette</button>
+                <button class='btn toggleBtn' data-rule='showInput'>Show Input</button>
+                <button class='btn toggleBtn' data-rule='showInitial'>Show Initial</button>
+                <button class='btn toggleBtn' data-rule='showAlpha'>Show Alpha</button>
+                <button class='btn toggleBtn' data-rule='showPaletteOnly'>Show Palette Only</button>
+                <button class='btn toggleBtn' data-rule='togglePaletteOnly'>Show Picker Toggle Button</button>
+                <button class='btn toggleBtn' data-rule='showButtons'>Show Buttons</button>
+            </div>
+            <br />
+            <br />
+            <p>
+            <label>Draggable Size <input type='range' value='172' id='size' max='500' min='50' /></label>
+
+            <label>Hue Size <input type='range' value='16' id='huesize' max='90' min='5' /></label>
+            </p>
+        </div>
+
+        <input id="full">
+
+    </div>
+
+    <hr />
+    <h2>Colorpicker Localization</h2>
+    <div class='alert'>
+        <p>
+            This page has loaded the english localization.  Here is a list of all <a href='https://github.com/skylarkui/skylark-ui-colorpicker/tree/master/src/i18n'> localizations</a>.  <strong>Please help expand our localizations</strong>  if you know a language that isn't represented!  You can copy and paste one of the files, and update the text for 'cancel' and 'choose', then submit a pull request at: <a href'https://github.com/skylarkui/skylark-ui-colorpicker'>https://github.com/skylarkui/skylark-ui-colorpicker</a>.
+        </p>
+    </div>
+
+	<input id="langdemo" />
+
+    <hr />
+    <h2> Colorpicker Sample Palettes</h2>
+    <div class='alert'>
+
+        <p>
+        NOTE: these palettes are also a work in progress.  Ideally the site will eventually allow you to choose between a few options and download them.
+        </p>
+
+        <p>
+        The <code>newGmail</code> palette below is an example of customizing the palette size and layout with CSS.
+        </p>
+
+    </div>
+    <div id="palettes" class="example-container">
+
+    </div>
+
+</div>
+
+</body>
+</html>

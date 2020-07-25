@@ -1,0 +1,1 @@
+{"version":3,"sources":["ColorPalette.js"],"names":["define","colors"],"mappings":";;;;;;;AAAAA,QACC,YACC,SAASC","file":"../ColorPalette.js","sourcesContent":["define([\r\n\t\"./colors\"\r\n],function(colors){\r\n\t\r\n});"]}
