@@ -260,6 +260,7 @@ function initPage($,colors) {
       }
     });
 
+
     $(function() {
         $("#langdemo").colorer({
           flat: false,
