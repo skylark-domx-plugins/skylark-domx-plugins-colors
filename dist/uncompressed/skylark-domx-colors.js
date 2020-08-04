@@ -1493,19 +1493,18 @@ define('skylark-domx-colors/ColorPane',[
 
 });
 define('skylark-domx-colors/ColorBox',[
-    "skylark-domx-browser",
+    "skylark-langx/langx",
     "skylark-domx-noder",
     "skylark-domx-finder",
     "skylark-domx-query",
     "skylark-domx-eventer",
     "skylark-domx-styler",
-    "skylark-domx-fx",
     "skylark-domx-plugins",
     "skylark-domx-popups",
     "skylark-graphics-color",
     "./colors",
     "./ColorPane"
-   ],function(browser, noder, finder, $,eventer, styler,fx,plugins,popups,Color,colors,ColorPane) {
+   ],function(langx, noder, finder, $,eventer, styler,plugins,popups,Color,colors,ColorPane) {
     "use strict";
 
     var ColorBox = plugins.Plugin.inherit({
@@ -1514,22 +1513,27 @@ define('skylark-domx-colors/ColorBox',[
         pluginName : "domx.colors.box",
 
         options : {
-            states : {
-                showPalette: false,
-                showPaletteOnly: false,
-                togglePaletteOnly: false,
-                showSelectionPalette: true,
-                showInput: false,
-                allowEmpty: false,
-                showButtons: true,
-                showInitial: false,
-                showAlpha: false
+            pane : {
+                states : {
+                    showPalette: false,
+                    showPaletteOnly: false,
+                    togglePaletteOnly: false,
+                    showSelectionPalette: true,
+                    showInput: false,
+                    allowEmpty: false,
+                    showButtons: true,
+                    showInitial: false,
+                    showAlpha: false
+                },                
+                maxSelectionSize: 7,
+
+                palette : undefined,
+                selectionPalette : undefined
             },
 
             // Options
-            color: false,
-            maxSelectionSize: 7,
-            preferredFormat: false,
+            color: false
+
         },
 
         _updateUI : function () {
@@ -1558,21 +1562,6 @@ define('skylark-domx-colors/ColorBox',[
 
 
         _applyOptions : function () {
-            var opts = this.options;
-
-            this._states = {
-                allowEmpty : opts.states.allowEmpty,
-                showInput : opts.states.showInput,
-                showAlpha : opts.states.showAlpha,
-                showButtons : opts.states.showButtons,
-                togglePaletteOnly : opts.states.togglePaletteOnly,
-                showPalette : opts.states.showPalette,
-                showPaletteOnly : opts.states.showPaletteOnly,
-                showSelectionPalette: opts.showSelectionPalette,
-                showInitial : opts.states.showInitial
-            };
-
-           this._applyStates();
 
            this.reflow();
         },
@@ -1583,27 +1572,14 @@ define('skylark-domx-colors/ColorBox',[
             this.$el = this.$();
 
             var opts = this.options,
-            	$pane = this.$pane = $(opts.pane),
+            	$pane = this.$pane = $(opts.pane.template),
                 $previewElement = this.$previewElement = this.$el.find(".sp-preview-inner");
 
 
             if ($pane[0]) {
-                this.pane = ColorPane.instantiate($pane[0],{
-                    color : opts.color,
-                    palette : opts.palette,
-                    selectionPalette : opts.selectionPalette,
-                    states : {
-		                showPalette:  opts.states.showPalette,
-		                showPaletteOnly: opts.states.showPaletteOnly,
-		                togglePaletteOnly: opts.states.togglePaletteOnly,
-		                showSelectionPalette : opts.states.showSelectionPalette,
-                        showInput: opts.states.showInput,
-                        allowEmpty: opts.states.allowEmpty,
-                        showButtons: opts.states.showButtons,
-                        showInitial: opts.states.showInitial,
-                        showAlpha: opts.states.showAlpha                                            
-                    }
-                })
+                this.pane = ColorPane.instantiate($pane[0],langx.mixin({
+                    color : opts.color
+                },opts.pane));
             } 
 
             this._init();
@@ -1616,16 +1592,41 @@ define('skylark-domx-colors/ColorBox',[
 
             this._applyOptions();
 
-            this.listenTo(this.$el,"click touchstart", function (e) {
-                //if (!disabled) {
-                    self.toggle();
-                //}
-
-                e.stopPropagation();
-
-                if (!$(e.target).is("input")) {
-                    e.preventDefault();
+            var paneIsVisible = false;
+            this.$pane.hide();
+            function showPane() {
+                if (paneIsVisible) {
+                    return;
                 }
+               
+                paneIsVisible = true;
+
+                self.$pane.show();
+
+                self.reflow();
+                
+                self._updateUI();
+                
+            }
+
+            function hidePane() {
+                if (!paneIsVisible) {
+                    return;
+                }
+                paneIsVisible = false;
+
+                self.$pane.hide();
+            }
+
+
+            this.listenTo(this.$el,"click touchstart", function (e) {
+                if (paneIsVisible) {
+                    hidePane();
+                } else {
+                    showPane();
+                }
+
+              eventer.stop(e);
             });
 
         },
@@ -1644,17 +1645,6 @@ define('skylark-domx-colors/ColorBox',[
         	this.pane.set(color);
         },
 
-        _applyStates : function() {
-        },
-
-        stating : function(name,value) {
-            if (value !== undefined) {
-                this._states[name] = value;
-                this._applyStates();
-            } else {
-                return this._states[name];
-            }
-        },
 
         reflow : function () {
 
@@ -1663,64 +1653,12 @@ define('skylark-domx-colors/ColorBox',[
 
             this.pane.reflow();
 
-        },
-
-        toggle : function () {
-            if (this._visible) {
-                this.hide();
-            } else {
-                this.show();
-            }
-        },
-
-        show : function () {
-            if (this._visible) {
-                this.reflow();
-                return;
-            }
-            
-            this._visible = true;
-
-            //$(doc).on("keydown.ColorBox", onkeydown);
-            //$(doc).on("click.ColorBox", clickout);
-            //$(window).on("resize.ColorBox", resize);
-            this.$el.addClass("sp-active");
-            this.$pane.removeClass("sp-hidden");
-
-            this.reflow();
-            
-            this._updateUI();
-
-            //this._drawInitial();
-            
-        },
-        hide : function () {
-            // Return if hiding is unnecessary
-            if (!this._visible || this._flat) { return; }
-            this._visible = false;
-
-            //$(doc).off("keydown.ColorBox", onkeydown);
-            //$(doc).off("click.ColorBox", clickout);
-            //$(window).off("resize.ColorBox", resize);
-
-            this.$el.removeClass("sp-active");
-            this.$pane.addClass("sp-hidden");
-        },
-
-        destroy : function () {
-            ///this.$el.show();
-            ///this.$offsetElement.off("click.ColorBox touchstart.ColorBox");
-            ///this.$container.remove();
-            ///this.$replacer.remove();
-            //pickers[spect.id] = null;
         }
+
 
     });
 
-
     plugins.register(ColorBox);
-
-    ColorBox.localization = {};
 
     return colors.ColorBox = ColorBox;
 
@@ -1742,7 +1680,7 @@ define('skylark-domx-colors/colorer',[
     
     markup = (function () {
         return [
-            "<div class='sp-container sp-hidden'>",
+            "<div class='sp-container'>",
                 "<div class='sp-palette-container'>",
                     "<div class='sp-palette sp-thumb sp-cf'></div>",
                     "<div class='sp-palette-button-container sp-cf'>",
@@ -1838,7 +1776,7 @@ define('skylark-domx-colors/colorer',[
             }
 
             $appendTo.append($pane);
-            options.pane = $pane;
+            options.pane.template = $pane;
             return new ColorBox($replacer[0],options);
         }
 	}

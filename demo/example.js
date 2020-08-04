@@ -264,9 +264,12 @@ function initPage($,colors) {
     $(function() {
         $("#langdemo").colorer({
           flat: false,
-          states : {
-            showInput: true
+          pane : {
+              states : {
+                showInput: true
+              }            
           }
+
         });
     });
 

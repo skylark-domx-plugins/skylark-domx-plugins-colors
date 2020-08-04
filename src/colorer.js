@@ -15,7 +15,7 @@ define([
     
     markup = (function () {
         return [
-            "<div class='sp-container sp-hidden'>",
+            "<div class='sp-container'>",
                 "<div class='sp-palette-container'>",
                     "<div class='sp-palette sp-thumb sp-cf'></div>",
                     "<div class='sp-palette-button-container sp-cf'>",
@@ -111,7 +111,7 @@ define([
             }
 
             $appendTo.append($pane);
-            options.pane = $pane;
+            options.pane.template = $pane;
             return new ColorBox($replacer[0],options);
         }
 	}
