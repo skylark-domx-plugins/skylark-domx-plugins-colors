@@ -30,6 +30,7 @@ define([
             },
 
             states : {
+                showSelectionPalette: true
             },
             palette: [
                 ["#ffffff", "#000000", "#ff0000", "#ff8000", "#ffff00", "#008000", "#0000ff", "#4b0082", "#9400d3"]
@@ -107,25 +108,22 @@ define([
                 }
             }
            this._applyStates();
-           this.reflow();
         },
 
          _construct: function(elm, options) {
-            this.overrided(elm,options);
+           plugins.Plugin.prototype._construct.call(this,elm,options);
 
             this.$el = this.$();
 
-            var opts = this.options,
-                initialColor = this._initialColor =  opts.color,
-                selectionPalette = this._selectionPalette =  opts.selectionPalette.slice(0);
-
             this._init();
-
         },
 
         _init : function () {
             var self = this,
-                opts = this.options;
+                opts = this.options,
+                initialColor = this._initialColor =  opts.color,
+                selectionPalette = this._selectionPalette =  opts.selectionPalette.slice(0);
+
             this._applyOptions();
 
 
@@ -134,9 +132,6 @@ define([
 
                 // In case color was black - update the preview UI and set the format
                 // since the set function will not run (default color is black).
-                self._updateUI();
-                this._currentPreferredFormat = opts.preferredFormat || Color.parse(this._initialColor).format;
-
                 self._addColorToSelectionPalette(this._initialColor);
             } else {
                 this._updateUI();
@@ -175,6 +170,7 @@ define([
         		return this._current;
         	} else {
         		this._current = color;
+                this._updateUI();
         	}
         }
 

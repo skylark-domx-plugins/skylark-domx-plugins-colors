@@ -111,7 +111,7 @@ define([
         },
 
         _construct: function(elm, options) {
-            this.overrided(elm,options);
+            plugins.Plugin.prototype._construct.call(this,elm,options);
 
             this.listenTo(this.elmx(),"mousedown" , (e) => {
                 this._start(e);

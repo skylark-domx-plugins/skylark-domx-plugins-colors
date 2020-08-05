@@ -52,6 +52,8 @@ define([
                 showAlpha: false
             },
 
+            preferredFormat : "hex",
+
             // Options
             color: false
         },
@@ -59,10 +61,10 @@ define([
         _drawInitial : function () {
             var opts = this.options;
             if (this.stating("showInitial")) {
-                var initial = this._initialColor;
-                var current = this.get();
+                var initialColor = this._initialColor;
+                var currentColor = this.current();
                 this.$initialColorContainer.html(
-                    helper.paletteTemplate([initial, current], current, "sp-palette-row-initial", opts)
+                    helper.paletteTemplate([initialColor, currentColor], currentColor, "sp-palette-row-initial", opts)
                 );
             }
         },
@@ -113,24 +115,17 @@ define([
         },
 
         _updateOriginalInput : function (fireCallback) {
-            var color = this.get(),
+            var color = this.current(),
                 displayColor = '',
                 hasChanged = !Color.equals(color, this._colorOnShow);
 
             if (color) {
                 displayColor = color.toString(this._currentPreferredFormat);
                 // Update the selection palette with the current color
-                this._addColorToSelectionPalette(color);
+                this.emit("picked",color);
             }
 
-            if (this._isInput) {
-                this.$el.val(displayColor);
-            }
 
-            if (fireCallback && hasChanged) {
-                //callbacks.change(color);
-                //this.$el.trigger('change', [ color ]);
-            }
         },
 
         _updateUI : function () {
@@ -166,7 +161,7 @@ define([
                 }
             }
 
-            var realColor = this.get({ format: format }),
+            var realColor = this.current(),
                 displayColor = '';
 
             if (!realColor && this.stating("allowEmpty")) {
@@ -228,14 +223,12 @@ define([
         },
 
          _construct: function(elm, options) {
-            this.overrided(elm,options);
+            plugins.Plugin.prototype._construct.call(this,elm,options);
 
             var $el = this.$el = this.$();
 
             var opts = this.options,
                 theme = opts.theme;
-
-
 
             var                
                 dragger = this.$dragger = $el.find(opts.selectors.dragger),
@@ -254,9 +247,7 @@ define([
                 currentPreferredFormat = this._currentPreferredFormat = opts.preferredFormat,
                 isEmpty = this._isEmpty =  !initialColor;
 
-
             this._init();
-
         },
 
         _init : function () {
@@ -269,38 +260,32 @@ define([
                 self._isDragging = true;
                 self.$el.addClass(self.options.draggingClass);
                 self._shiftMovementDirection = null;
-                //this.$el.trigger('dragstart.ColorPicker', [ get() ]);
             }
 
             function dragStop() {
                 self._isDragging = false;
                 self.$el.removeClass(self.options.draggingClass);
-                //this.$el.trigger('dragstop.ColorPicker', [ get() ]);
             }           
 
             function move() {
+                self._updateOriginalInput();
                 self._updateUI();
-
-                //callbacks.move(get());
-                //this.$el.trigger('move.ColorPicker', [ get() ]);
             }
 
             this._applyOptions();
 
             function setFromTextInput() {
-                var value = textInput.val();
+                var value = self.$textInput.val();
 
                 if ((value === null || value === "") && self._allowEmpty) {
-                    self.set(null);
+                    self.current(null);
                     move();
-                    self._updateOriginalInput();
                 }
                 else {
                     var tiny = Color.parse(value);
                     if (tiny.isValid()) {
-                        self.set(tiny);
+                        self.current(tiny);
                         move();
-                        self._updateOriginalInput();
                     }
                     else {
                         self.$textInput.addClass("sp-validation-error");
@@ -318,21 +303,15 @@ define([
             this.listenTo(this.$cancelButton,"click", function (e) {
                 eventer.stop(e);
                 self.revert();
-                self.hide();
+                self.emit("canceled"); 
             });
 
             this.$clearButton.attr("title", opts.texts.clearText);
             this.listenTo(this.$clearButton,"click", function (e) {
-                //e.stopPropagation();
-                //e.preventDefault();
                 eventer.stop(e);
                 self._isEmpty = true;
                 move();
 
-                if(opts.flat) {
-                    //for the flat style, this is a change event
-                    self._updateOriginalInput(true);
-                }
             });
 
             this.$chooseButton.text(opts.texts.chooseText);
@@ -340,7 +319,7 @@ define([
                 eventer.stop(e);
 
                 self._updateOriginalInput(true);
-                self.hide();
+                self.emit("choosed"); 
             });
           
             this.$alphaSlider.plugin("domx.indicator", {
@@ -352,6 +331,7 @@ define([
                     }
 
                     move();
+
                 }, 
                 "onstart" : dragStart, 
                 "onstop" :dragStop
@@ -406,34 +386,20 @@ define([
                 "onstop" :dragStop
             });
 
-            if (!!this._initialColor) {
-                this.set(this._initialColor);
+            this.current(this._initialColor);
 
-                // In case color was black - update the preview UI and set the format
-                // since the set function will not run (default color is black).
-                self._updateUI();
-                this._currentPreferredFormat = opts.preferredFormat || Color.parse(this._initialColor).format;
-            } else {
-                this._updateUI();
-            }
+            // In case color was black - update the preview UI and set the format
+            // since the set function will not run (default color is black).
+            self._updateUI();
 
             function paletteElementClick(e) {
                 if (e.data && e.data.ignore) {
-                    self.set($(e.target).closest(".sp-thumb-el").data("color"));
+                    self.current($(e.target).closest(".sp-thumb-el").data("color"));
                     move();
                 }
                 else {
-                    self.set($(e.target).closest(".sp-thumb-el").data("color"));
+                    self.current($(e.target).closest(".sp-thumb-el").data("color"));
                     move();
-
-                    // If the picker is going to close immediately, a palette selection
-                    // is a change.  Otherwise, it's a move only.
-                    if (opts.hideAfterPaletteSelect) {
-                        self_updateOriginalInput(true);
-                        self.hide();
-                    } else {
-                        self._updateOriginalInput();
-                    }
                 }
 
                 return false;
@@ -444,64 +410,51 @@ define([
         },
 
         revert :  function () {
-            this.set(this._initialColor, true);
+            this.current(this._initialColor, true);
             this._updateOriginalInput(true);
         },
 
 
-        get : function (opts) {
-            opts = opts || { };
-
-            if (this._allowEmpty && this._isEmpty) {
-                return null;
-            }
-
-            /*
-            return fromRatio({
-                h: currentHue,
-                s: currentSaturation,
-                v: currentValue,
-                a: Math.round(currentAlpha * 1000) / 1000
-            }, { format: opts.format || currentPreferredFormat });
-            */
-            return Color.parse({
-                h: this._currentHue * 360,
-                s: this._currentSaturation,
-                v: this._currentValue,
-                a: Math.round(this._currentAlpha * 1000) / 1000
-            });
-        },
+        current : function(color) {
+            if (color === undefined) {
+                if (this._allowEmpty && this._isEmpty) {
+                    return null;
+                }
 
 
-        set : function (color, ignoreFormatChange) {
-            var opts = this.options;
+                return Color.parse({
+                    h: this._currentHue * 360,
+                    s: this._currentSaturation,
+                    v: this._currentValue,
+                    a: Math.round(this._currentAlpha * 1000) / 1000
+                });
 
-            if (Color.equals(color, this.get())) {
-                // Update UI just in case a validation error needs
-                // to be cleared.
-                this._updateUI();
-                return;
-            }
-
-            var newColor, newHsv;
-            if (!color && this.stating("allowEmpty")) {
-                this._isEmpty = true;
             } else {
-                this._isEmpty = false;
-                newColor = Color.parse(color);
-                newHsv = newColor.toHsv();
+                if (Color.equals(color, this.current())) {
+                    // Update UI just in case a validation error needs
+                    // to be cleared.
+                    this._updateUI();
+                    return;
+                }
 
-                this._currentHue = (newHsv.h % 360) / 360;
-                this._currentSaturation = newHsv.s;
-                this._currentValue = newHsv.v;
-                this._currentAlpha = newHsv.a;
-            }
-            this._updateUI();
+                var newColor, newHsv;
+                if (!color && this.stating("allowEmpty")) {
+                    this._isEmpty = true;
+                } else {
+                    this._isEmpty = false;
+                    newColor = Color.parse(color);
+                    newHsv = newColor.toHsv();
 
-            if (newColor && newColor.isValid() && !ignoreFormatChange) {
-                this._currentPreferredFormat = opts.preferredFormat || newColor.getFormat();
+                    this._currentHue = (newHsv.h % 360) / 360;
+                    this._currentSaturation = newHsv.s;
+                    this._currentValue = newHsv.v;
+                    this._currentAlpha = newHsv.a;
+                }
+                this._updateUI();
+
             }
         },
+
 
         _applyStates : function() {
            var states = this._states ;
@@ -536,9 +489,7 @@ define([
         },
 
         reflow : function () {
-
             this._updateHelperLocations();
-
         }
 
     });
@@ -546,7 +497,5 @@ define([
 
     plugins.register(ColorPicker);
 
-
     return colors.ColorPicker = ColorPicker;
-
 });

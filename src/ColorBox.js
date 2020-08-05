@@ -73,7 +73,7 @@ define([
         },
 
          _construct: function(elm, options) {
-            this.overrided(elm,options);
+            plugins.Plugin.prototype._construct.call(this,elm,options);
 
             this.$el = this.$();
 
@@ -86,6 +86,7 @@ define([
                 this.pane = ColorPane.instantiate($pane[0],langx.mixin({
                     color : opts.color
                 },opts.pane));
+
             } 
 
             this._init();
@@ -134,6 +135,17 @@ define([
 
               eventer.stop(e);
             });
+
+            this.listenTo(this.pane,"picked",(e,color) => {
+
+                // Update the replaced elements background color (with actual selected color)
+                this.$previewElement.css("background-color", color.toRgbString());               
+            });
+
+            this.listenTo(this.pane,"canceled choosed",(e) => {
+                hidePane();
+            });
+
 
         },
 

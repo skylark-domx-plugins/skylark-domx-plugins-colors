@@ -102,7 +102,7 @@ define([
         if (flat) {
             $el.after($pane).hide();
             var pane = new ColorPane($pane[0],options);
-            pane.show();
+            $pane.show();
             return pane;
         } else {
             var $appendTo = appendTo === "parent" ? $el.parent() : $(appendTo);
