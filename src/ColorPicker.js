@@ -145,7 +145,6 @@ define([
             this._updateHelperLocations();
 
             // Update dragger background color (gradients take care of saturation and value).
-            //var flatColor = Color.fromRatio({ h: currentHue, s: 1, v: 1 });
             var flatColor = Color.parse({ 
                 h: this._currentHue * 360, 
                 s: 1, 

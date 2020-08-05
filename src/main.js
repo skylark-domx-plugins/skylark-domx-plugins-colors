@@ -4,10 +4,7 @@ define([
     "./colorer",
     "./ColorPalette",
     "./ColorPicker",
-    "./ColorPane",
-    "./i18n/texts_ja",
-    "./i18n/texts_zh-cn",
-    "./i18n/texts_zh-tw"
+    "./ColorPane"
 ], function($,colors,colorer) {
    
    $.fn.colorer = $.wraps.wrapper_every_act(colorer,colors);
