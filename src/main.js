@@ -1,14 +1,13 @@
 define([
 	"skylark-domx-query",
 	"./colors",
-    "./colorer",
-    "./ColorPalette",
-    "./ColorPicker",
-    "./ColorPane"
+  "./colorer",
+  "./ColorPalette",
+  "./ColorPicker",
+  "./ColorPane",
+  "./Gradienter"
 ], function($,colors,colorer) {
    
-   $.fn.colorer = $.wraps.wrapper_every_act(colorer,colors);
-
    return colors;
 
 });

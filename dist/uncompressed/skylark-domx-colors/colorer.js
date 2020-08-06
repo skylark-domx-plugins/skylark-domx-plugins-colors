@@ -1,10 +1,11 @@
 define([
     "skylark-langx/langx",
+    "skylark-domx-data",
     "skylark-domx-query",
 	"./colors",
 	"./ColorBox",
 	"./ColorPane"
-],function(langx,$,colors,ColorBox,ColorPane){
+],function(langx,datax,$,colors,ColorBox,ColorPane){
    var pickers = [],
     replaceInput = [
         "<div class='sp-replacer'>",
@@ -102,6 +103,15 @@ define([
         if (flat) {
             $el.after($pane).hide();
             var pane = new ColorPane($pane[0],options);
+            if (options.picked) {
+                pane.on("picked",options.picked);
+            }
+            if (options.choosed) {
+                pane.on("choosed",options.choosed);               
+            }
+            if (options.canceled) {
+                pane.on("canceled",options.canceled);               
+            }
             $pane.show();
             return pane;
         } else {
@@ -116,5 +126,21 @@ define([
         }
 	}
 
+
+   $.fn.colorer =  function (options) {
+        var elm = this[0];
+
+        if (elm) {
+            var plugin    = datax.data(elm,'domx.colorer')
+            if (!plugin) {
+                plugin = colorer(elm,options)
+                datax.data(elm,'domx.colorer',plugin);
+            }
+
+            return plugin;
+        }
+   };
+
+  
 	return colors.colorer = colorer;
 });

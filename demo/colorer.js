@@ -7,7 +7,7 @@ function initPage($,colors) {
     }
 
 
-/*
+
     var colorpickerInput = $("#full");
 
 
@@ -259,7 +259,7 @@ function initPage($,colors) {
         });
       }
     });
-*/
+
 
     $(function() {
         $("#langdemo").colorer({

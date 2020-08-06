@@ -5,5 +5,5 @@
  * @link https://github.com/skylark-domx/skylark-domx-colors/
  * @license MIT
  */
-define(["skylark-domx-query","./colors","./colorer","./ColorPalette","./ColorPicker","./ColorPane"],function(r,o,e){return r.fn.colorer=r.wraps.wrapper_every_act(e,o),o});
+define(["skylark-domx-query","./colors","./colorer","./ColorPalette","./ColorPicker","./ColorPane","./Gradienter"],function(r,o,e){return o});
 //# sourceMappingURL=sourcemaps/main.js.map
