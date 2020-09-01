@@ -1505,7 +1505,10 @@ define('skylark-domx-colors/colorer',[
             replacerClassName: "",
             theme: "sp-light",
 
-            offset: null
+            offset: null,
+            pane : {
+                
+            }
 		},options);
 
 		var 
