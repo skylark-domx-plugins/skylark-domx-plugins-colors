@@ -27,7 +27,7 @@
     "skylark-domx-popups": "git+https://github.com/skylark-domx/skylark-domx-popups.git#master",
     "skylark-domx-query": "git+https://github.com/skylark-domx/skylark-domx-query.git#master",
     "skylark-domx-styler": "git+https://github.com/skylark-domx/skylark-domx-styler.git#master",
-    "skylark-graphics-color": "git+https://github.com/skylark-graphics/skylark-graphics-color.git#master",
+    "skylark-graphics-colors": "git+https://github.com/skylark-graphics/skylark-graphics-colors.git#master",
     "skylark-langx": "git+https://github.com/skylark-langx/skylark-langx.git#master"
   },
   "engines": {

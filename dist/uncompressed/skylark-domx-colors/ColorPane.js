@@ -9,7 +9,7 @@ define([
     "skylark-domx-fx",
     "skylark-domx-plugins",
     "skylark-domx-popups",
-    "skylark-graphics-color",
+    "skylark-graphics-colors/Color",
     "./colors",
     "./ColorPicker",
     "./ColorPalette"

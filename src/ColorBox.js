@@ -7,7 +7,7 @@ define([
     "skylark-domx-styler",
     "skylark-domx-plugins",
     "skylark-domx-popups",
-    "skylark-graphics-color",
+    "skylark-graphics-colors/Color",
     "./colors",
     "./ColorPane"
    ],function(langx, noder, finder, $,eventer, styler,plugins,popups,Color,colors,ColorPane) {

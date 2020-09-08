@@ -9,7 +9,7 @@ define([
     "skylark-domx-styler",
     "skylark-domx-fx",
     "skylark-domx-plugins",
-    "skylark-graphics-color",
+    "skylark-graphics-colors/Color",
     "./colors",
     "./helper"
 ],function(skylark, langx, browser, noder, finder, $,eventer, styler,fx,plugins,Color,colors,helper) {

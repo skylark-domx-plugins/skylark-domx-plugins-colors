@@ -64,8 +64,8 @@ requirejs.config({
             main: 'main'
          },
          {
-           name : "skylark-langx-numbers",
-           location : "../node_modules/skylark-langx-numbers/dist/uncompressed/skylark-langx-numbers",
+           name : "skylark-langx-numerics",
+           location : "../node_modules/skylark-langx-numerics/dist/uncompressed/skylark-langx-numerics",
             main: 'main'
          },
          {
@@ -208,8 +208,8 @@ requirejs.config({
          },
 
          {
-           name : "skylark-graphics-color",
-           location : "../node_modules/skylark-graphics-color/dist/uncompressed/skylark-graphics-color",
+           name : "skylark-graphics-colors",
+           location : "../node_modules/skylark-graphics-colors/dist/uncompressed/skylark-graphics-colors",
            main: 'main'
          },         
           {

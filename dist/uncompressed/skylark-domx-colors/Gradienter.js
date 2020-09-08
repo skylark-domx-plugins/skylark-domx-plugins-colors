@@ -6,7 +6,7 @@ define([
     "skylark-domx-finder",
     "skylark-domx-query",
     "skylark-domx-plugins",    
-    "skylark-graphics-color/Color",
+    "skylark-graphics-colors/Color",
     "./colors",
     "./colorer",
     "./Drag"

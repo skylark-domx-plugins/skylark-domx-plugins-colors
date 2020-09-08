@@ -7,7 +7,7 @@ define([
     "skylark-domx-eventer",
     "skylark-domx-styler",
     "skylark-domx-plugins",
-    "skylark-graphics-color",
+    "skylark-graphics-colors/Color",
     "./colors",
     "./helper",
     "./Indicator"
