@@ -1,7 +1,7 @@
 define([
     "skylark-domx-browser",
     "skylark-domx-query",
-    "skylark-graphics-color/Color"    
+    "skylark-graphics-colors/Color"    
 ],function(browser,$,Color){
     function paletteElementClick(e) {
         if (e.data && e.data.ignore) {
