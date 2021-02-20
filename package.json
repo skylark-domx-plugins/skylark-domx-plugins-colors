@@ -1,22 +1,22 @@
 {
-  "name": "skylark-domx-colors",
-  "description": "The skylark dom api extenstion library for color",
+  "name": "skylark-domx-plugins-colors",
+  "description": "The skylark color plugin library",
   "version": "0.9.0",
   "keywords": [
     "skylark",
     "colorpicker"
   ],
-  "homepage": "https://github.com/skylark-domx/skylark-domx-colors/",
+  "homepage": "https://github.com/skylark-domx-plugins/skylark-domx-plugins-colors/",
   "author": "Hudaokeji, Inc.",
   "scripts": {
     "build": "slib build ."
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/skylark-domx/skylark-domx-colors.git"
+    "url": "https://github.com/skylark-domx-plugins/skylark-domx-plugins-colors.git"
   },
   "bugs": {
-    "url": "https://github.com/skylark-domx/skylark-domx-colors/issues"
+    "url": "https://github.com/skylark-domx-plugins/skylark-domx-plugins-colors/issues"
   },
   "license": "MIT",
   "dependencies": {
@@ -24,7 +24,7 @@
     "skylark-domx-fx": "git+https://github.com/skylark-domx/skylark-domx-fx.git#master",
     "skylark-domx-interact": "git+https://github.com/skylark-domx/skylark-domx-interact.git#master",
     "skylark-domx-plugins": "git+https://github.com/skylark-domx/skylark-domx-plugins.git#master",
-    "skylark-domx-popups": "git+https://github.com/skylark-domx/skylark-domx-popups.git#master",
+    "skylark-domx-plugins-popups": "git+https://github.com/skylark-domx-plugins/skylark-domx-plugins-popups.git#master",
     "skylark-domx-query": "git+https://github.com/skylark-domx/skylark-domx-query.git#master",
     "skylark-domx-styler": "git+https://github.com/skylark-domx/skylark-domx-styler.git#master",
     "skylark-graphics-colors": "git+https://github.com/skylark-graphics/skylark-graphics-colors.git#master",
