@@ -6,7 +6,7 @@ define([
     "skylark-domx-eventer",
     "skylark-domx-styler",
     "skylark-domx-plugins",
-    "skylark-domx-popups",
+    "skylark-domx-plugins-popups",
     "skylark-graphics-colors/Color",
     "./colors",
     "./ColorPane"

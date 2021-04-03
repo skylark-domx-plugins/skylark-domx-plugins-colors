@@ -8,7 +8,7 @@ define([
     "skylark-domx-styler",
     "skylark-domx-fx",
     "skylark-domx-plugins",
-    "skylark-domx-popups",
+    "skylark-domx-plugins-popups",
     "skylark-graphics-colors/Color",
     "./colors",
     "./ColorPicker",
