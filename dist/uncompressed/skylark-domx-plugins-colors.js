@@ -157,7 +157,7 @@ define('skylark-domx-plugins-colors/Indicator',[
     "skylark-domx-eventer",
     "skylark-domx-finder",
     "skylark-domx-query",
-    "skylark-domx-plugins"    
+    "skylark-domx-plugins-base"    
 ],function(skylark, langx, browser, noder, eventer,finder, $,plugins) {
     /**
     * Lightweight drag helper.  Handles containment within the element, so that
@@ -352,7 +352,7 @@ define('skylark-domx-plugins-colors/ColorPicker',[
     "skylark-domx-query",
     "skylark-domx-eventer",
     "skylark-domx-styler",
-    "skylark-domx-plugins",
+    "skylark-domx-plugins-base",
     "skylark-graphics-colors/Color",
     "./colors",
     "./helper",
@@ -854,7 +854,7 @@ define('skylark-domx-plugins-colors/ColorPalette',[
     "skylark-domx-eventer",
     "skylark-domx-styler",
     "skylark-domx-fx",
-    "skylark-domx-plugins",
+    "skylark-domx-plugins-base",
     "skylark-graphics-colors/Color",
     "./colors",
     "./helper"
@@ -1037,7 +1037,7 @@ define('skylark-domx-plugins-colors/ColorPane',[
     "skylark-domx-eventer",
     "skylark-domx-styler",
     "skylark-domx-fx",
-    "skylark-domx-plugins",
+    "skylark-domx-plugins-base",
     "skylark-domx-plugins-popups",
     "skylark-graphics-colors/Color",
     "./colors",
@@ -1749,7 +1749,7 @@ define('skylark-domx-plugins-colors/Gradienter',[
     "skylark-domx-eventer",
     "skylark-domx-finder",
     "skylark-domx-query",
-    "skylark-domx-plugins",    
+    "skylark-domx-plugins-base",    
     "skylark-graphics-colors/Color",
     "./colors",
     "./colorer",

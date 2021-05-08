@@ -6,7 +6,7 @@ define([
     "skylark-domx-query",
     "skylark-domx-eventer",
     "skylark-domx-styler",
-    "skylark-domx-plugins",
+    "skylark-domx-plugins-base",
     "skylark-graphics-colors/Color",
     "./colors",
     "./helper",

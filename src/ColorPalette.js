@@ -8,7 +8,7 @@ define([
     "skylark-domx-eventer",
     "skylark-domx-styler",
     "skylark-domx-fx",
-    "skylark-domx-plugins",
+    "skylark-domx-plugins-base",
     "skylark-graphics-colors/Color",
     "./colors",
     "./helper"

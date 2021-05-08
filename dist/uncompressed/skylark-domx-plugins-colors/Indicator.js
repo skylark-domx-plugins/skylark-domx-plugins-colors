@@ -6,7 +6,7 @@ define([
     "skylark-domx-eventer",
     "skylark-domx-finder",
     "skylark-domx-query",
-    "skylark-domx-plugins"    
+    "skylark-domx-plugins-base"    
 ],function(skylark, langx, browser, noder, eventer,finder, $,plugins) {
     /**
     * Lightweight drag helper.  Handles containment within the element, so that
