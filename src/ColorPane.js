@@ -19,7 +19,7 @@ define([
     var ColorPane = plugins.Plugin.inherit({
         klassName : "ColorPane",
 
-        pluginName : "domx.colors.pane",
+        pluginName : "lark.colors.pane",
 
         options : {
             selectors  : {

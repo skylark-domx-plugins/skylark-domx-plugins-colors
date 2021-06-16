@@ -105,7 +105,7 @@ define([
     var Indicator = plugins.Plugin.inherit({
         klassName : "Indicator",
 
-        pluginName : "domx.indicator",
+        pluginName : "lark.colors.indicator",
 
         options : {
         },

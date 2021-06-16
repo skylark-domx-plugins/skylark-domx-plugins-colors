@@ -17,7 +17,7 @@ define([
     var ColorPicker = plugins.Plugin.inherit({
         klassName : "ColorPicker",
 
-        pluginName : "domx.colors.picker",
+        pluginName : "lark.colors.picker",
 
         options : {
             selectors  : {

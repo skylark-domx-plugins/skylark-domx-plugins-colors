@@ -20,7 +20,7 @@ define([
     var ColorPalette = plugins.Plugin.inherit({
         klassName : "ColorPalette",
 
-        pluginName : "domx.colors.palette",
+        pluginName : "lark.colors.palette",
 
         options : {
             selectors  : {

@@ -256,7 +256,7 @@ define('skylark-domx-plugins-colors/Indicator',[
     var Indicator = plugins.Plugin.inherit({
         klassName : "Indicator",
 
-        pluginName : "domx.indicator",
+        pluginName : "lark.colors.indicator",
 
         options : {
         },
@@ -363,7 +363,7 @@ define('skylark-domx-plugins-colors/ColorPicker',[
     var ColorPicker = plugins.Plugin.inherit({
         klassName : "ColorPicker",
 
-        pluginName : "domx.colors.picker",
+        pluginName : "lark.colors.picker",
 
         options : {
             selectors  : {
@@ -866,7 +866,7 @@ define('skylark-domx-plugins-colors/ColorPalette',[
     var ColorPalette = plugins.Plugin.inherit({
         klassName : "ColorPalette",
 
-        pluginName : "domx.colors.palette",
+        pluginName : "lark.colors.palette",
 
         options : {
             selectors  : {
@@ -1049,7 +1049,7 @@ define('skylark-domx-plugins-colors/ColorPane',[
     var ColorPane = plugins.Plugin.inherit({
         klassName : "ColorPane",
 
-        pluginName : "domx.colors.pane",
+        pluginName : "lark.colors.pane",
 
         options : {
             selectors  : {
@@ -1270,7 +1270,7 @@ define('skylark-domx-plugins-colors/ColorBox',[
     var ColorBox = plugins.Plugin.inherit({
         klassName : "ColorBox",
 
-        pluginName : "domx.colors.box",
+        pluginName : "lark.colors.box",
 
         options : {
             pane : {

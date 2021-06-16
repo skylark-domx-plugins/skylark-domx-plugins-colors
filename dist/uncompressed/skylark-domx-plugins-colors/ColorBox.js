@@ -16,7 +16,7 @@ define([
     var ColorBox = plugins.Plugin.inherit({
         klassName : "ColorBox",
 
-        pluginName : "domx.colors.box",
+        pluginName : "lark.colors.box",
 
         options : {
             pane : {
