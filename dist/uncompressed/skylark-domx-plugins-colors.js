@@ -87,10 +87,14 @@
 })(function(define,require) {
 
 define('skylark-domx-plugins-colors/colors',[
-	"skylark-langx/skylark"
-],function(skylark){
-	return skylark.attach("domx.colores",{});
+    "skylark-domx-plugins-base/plugins"
+],function (plugins) {
+    'use strict';
+
+    return plugins.colores = {};
+
 });
+
 define('skylark-domx-plugins-colors/helper',[
     "skylark-domx-browser",
     "skylark-domx-query",
