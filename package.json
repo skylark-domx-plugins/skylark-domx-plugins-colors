@@ -22,7 +22,6 @@
   "dependencies": {
     "skylark-domx-eventer": "git+https://github.com/skylark-domx/skylark-domx-eventer.git",
     "skylark-domx-fx": "git+https://github.com/skylark-domx/skylark-domx-fx.git",
-    "skylark-domx-interact": "git+https://github.com/skylark-domx/skylark-domx-interact.git",
     "skylark-domx-plugins-base": "git+https://github.com/skylark-domx-plugins/skylark-domx-plugins-base.git",
     "skylark-domx-plugins-interact": "git+https://github.com/skylark-domx-plugins/skylark-domx-plugins-interact.git",
     "skylark-domx-plugins-popups": "git+https://github.com/skylark-domx-plugins/skylark-domx-plugins-popups.git",
