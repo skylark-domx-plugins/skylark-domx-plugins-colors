@@ -321,7 +321,7 @@ define([
                 self.emit("choosed"); 
             });
           
-            this.$alphaSlider.plugin("domx.indicator", {
+            this.$alphaSlider.plugin("lark.colors.indicator", {
                 "onmove" :   function (dragX, dragY, e) {
                     self._currentAlpha = (dragX / self._alphaWidth);
                     self._isEmpty = false;
@@ -336,7 +336,7 @@ define([
                 "onstop" :dragStop
             });
 
-            this.$slider.plugin("domx.indicator", {
+            this.$slider.plugin("lark.colors.indicator", {
                 "onmove" :   function (dragX, dragY, e) {
                     self._currentHue = parseFloat(dragY / self._slideHeight);
                     self._isEmpty = false;
@@ -349,7 +349,7 @@ define([
                 "onstop" :dragStop
             });
 
-            this.$dragger.plugin("domx.indicator", {
+            this.$dragger.plugin("lark.colors.indicator", {
                 "onmove" :   function (dragX, dragY, e) {
 
                     // shift+drag should snap the movement to either the x or y axis.
